@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>LEMON</title>
+
+<style>
+/* ================= ROOT ================= */
+:root{
+  --red:#8b0000;
+  --red-glow:#b30000;
+  --gray:#9a9a9;
+  --black:#000;
+}
+
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  padding:0;
+  background:#000;
+  color:#fff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x:hidden;
+}
+
+/* ================= ENTRY ================= */
+#entry{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+#entry::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle, rgba(139,0,0,.25), transparent 60%);
+  animation:pulse 1.6s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:.3}
+  50%{opacity:.9}
+}
+
+#init{
+  position:relative;
+  z-index:2;
+  padding:18px 36px;
+  background:transparent;
+  border:1px solid var(--red);
+  color:var(--red);
+  letter-spacing:2px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* ================= OVERLAYS ================= */
+.scanlines, .noise{
+  pointer-events:none;
+  position:fixed;
+  inset:0;
+  z-index:10;
+}
+
+.scanlines{
+  background:linear-gradient(
+    rgba(255,255,255,.03) 1px,
+    transparent 1px
+  );
+  background-size:100% 3px;
+}
+
+.noise{
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+  animation:noise 0.2s infinite;
+}
+
+@keyframes noise{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(-1px,1px)}
+  50%{transform:translate(1px,-1px)}
+  75%{transform:translate(-1px,-1px)}
+}
+
+/* ================= TITLE ================= */
+header{
+  text-align:center;
+  padding:40px 16px 20px;
+}
+
+.glitch{
+  font-size:clamp(42px,12vw,92px);
+  letter-spacing:6px;
+  position:relative;
+  animation:glitch 2.5s infinite;
+}
+
+.glitch::before,
+.glitch::after{
+  content:attr(data-text);
+  position:absolute;
+  inset:0;
+}
+
+.glitch::before{
+  color:var(--red);
+  transform:translate(-2px,0);
+  opacity:.8;
+}
+
+.glitch::after{
+  color:#fff;
+  transform:translate(2px,0);
+  opacity:.4;
+}
+
+@keyframes glitch{
+  0%,100%{transform:none}
+  20%{transform:skewX(2deg)}
+  40%{transform:skewX(-2deg)}
+}
+
+/* ================= SECTIONS ================= */
+section{
+  padding:20px 16px;
+}
+
+/* Bento */
+.bento{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+/* Masonry */
+.masonry{
+  columns:2;
+  column-gap:10px;
+}
+
+/* Film strip */
+.film{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  padding-bottom:10px;
+}
+
+/* ================= IMAGES ================= */
+img{
+  width:100%;
+  display:block;
+  filter:grayscale(1);
+  transition:transform .5s, filter .5s;
+}
+
+.img-wrap{
+  overflow:hidden;
+  margin-bottom:10px;
+}
+
+.img-wrap:hover img{
+  transform:scale(1.08);
+  filter:grayscale(0)
+    contrast(1.6)
+    sepia(1)
+    hue-rotate(-40deg)
+    saturate(6);
+}
+
+/* ================= SOCIALS ================= */
+.socials{
+  display:flex;
+  gap:12px;
+}
+
+.socials a{
+  flex:1;
+  padding:14px;
+  text-align:center;
+  border:1px solid var(--gray);
+  color:var(--gray);
+  text-decoration:none;
+  letter-spacing:1px;
+}
+
+.socials a:hover{
+  animation:shake .2s infinite;
+  color:var(--red);
+  border-color:var(--red);
+}
+
+@keyframes shake{
+  0%{transform:translate(0)}
+  50%{transform:translate(-2px,2px)}
+  100%{transform:translate(2px,-2px)}
+}
+
+/* ================= FOOTER ================= */
+footer{
+  text-align:center;
+  padding:30px 10px;
+  font-size:11px;
+  color:#555;
+  filter:blur(.6px);
+}
+
+/* ================= HIDDEN STATE ================= */
+#site{
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="entry">
+  <button id="init">س ي ف</button>
+</div>
+
+<div id="site">
+  <div class="scanlines"></div>
+  <div class="noise"></div>
+
+  <audio id="audio" src="vibe.mp3.m4a" loop></audio>
+
+  <header>
+    <div class="glitch" data-text="777">س</div>
+  </header>
+
+  <!-- Section 1 -->
+  <section class="bento">
+    <div class="img-wrap"><img src="IMG_1463.jpeg"></div>
+    <div class="img-wrap"><img src="IMG_1403.jpeg"></div>
+    <div class="img-wrap"><img src="IMG_1497.jpeg"></div>
+    <div class="img-wrap"><img src="IMG_1810.jpeg"></div>
+  </section>
+
+  <!-- Section 2 -->
+  <section class="socials">
+    <a href="https://snapchat.com/t/VT4p987o">SC</a>
+    <a href="https://www.tiktok.com/@seiifwael16?_r=1&_t=ZS-96loLuf4Tep">TT</a>
+  </section>
+
+  <!-- Section 3 -->
+  <section class="masonry">
+    <div class="img-wrap"><img src="1fe63db5-9efb-48f7-8666-72b3a7b83e2c.jpeg"></div>
+    <div class="img-wrap"><img src="IMG_0076.jpeg"></div>
+    <div class="img-wrap"><img src="IMG_1693.jpeg"></div>
+    <div class="img-wrap"><img src="IMG_8699.jpeg"></div>
+  </section>
+
+  <!-- Section 4 -->
+  <section class="film">
+    <div class="img-wrap" style="min-width:65%"><img src="d185fb0b-5408-4c4a-b37c-c4e0e9b5ed66.jpeg"></div>
+    <div class="img-wrap" style="min-width:65%"><img src="IMG_3895.jpeg"></div>
+    <div class="img-wrap" style="min-width:65%"><img src="IMG_9799.jpeg"></div>
+    <div class="img-wrap" style="min-width:65%"><img src="IMG_3899.jpeg"></div>
+  </section>
+
+  <footer>YOU CAN CALL ME S</footer>
+</div>
+
+<script>
+const init = document.getElementById("init");
+const site = document.getElementById("site");
+const entry = document.getElementById("entry");
+const audio = document.getElementById("audio");
+
+init.addEventListener("click",()=>{
+  audio.play();
+  entry.style.animation="glitch .3s steps(2) infinite";
+  setTimeout(()=>{
+    entry.style.display="none";
+    site.style.display="block";
+  },400);
+});
+</script>
+
+</body>
+</html>
